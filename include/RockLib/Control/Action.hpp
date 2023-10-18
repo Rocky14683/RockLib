@@ -4,20 +4,41 @@
 #pragma once
 #include <any>
 #include <vector>
+#include <map>
 #include "RockLib/Util/Flags.hpp"
+#include "RockLib/Util/Point.hpp"
 
 namespace RockLib {
 
-    class Action {
+    class Action{
     public:
+        Action(const Action&) = delete;
+        Action& operator=(const Action&) = delete;
 
-    };
+        struct MotionConstraints_t{
+            double velocity;
+            double acceleration;
+            double jerk;
+        };
 
-
-    class ActionHolder{
-    public:
     private:
+        friend class ActionBuilder;
+
+        void delay(double sec);
+
+        void turn(double angle, Flags flags = flag::NONE, MotionConstraints_t constraint = {0, 0, 0});
+
+        void turnTo(Point target, Flags flags = flag::NONE, MotionConstraints_t constraint = {0, 0, 0});
+
+        void move(double distance, Flags flags = flag::NONE, MotionConstraints_t constraint = {0, 0, 0});
+
+        void moveTo(Point target, Flags flags = flag::NONE, MotionConstraints_t constraint = {0, 0, 0});
+
+        void moveToArc(Point target, double radius, Flags flags = flag::NONE, MotionConstraints_t constraint = {0, 0, 0});
+
+        void splineTo(Point target, Point c1, Point c2, Flags flags = flag::NONE, MotionConstraints_t constraint = {0, 0, 0});
+
+        void splineTo(Point target, Point c1, Flags flags = flag::NONE, MotionConstraints_t constraint = {0, 0, 0});
     };
 
 } // RockLib
-
