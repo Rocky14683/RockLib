@@ -33,12 +33,14 @@ namespace RockLib {
 
         ActionBuilder& splineTo(Point target, Point c1, Flags flags = flag::NONE, Action::MotionConstraints_t constraint = {0, 0, 0});
 
+        ActionBuilder& splineTo(std::vector<Point> target, Flags flags = flag::NONE, Action::MotionConstraints_t constraints = {0, 0, 0});
+
         void build();
 
     private:
-        static Action action;
+        Action action;
 
-        static uint32_t actionID;
+        uint32_t actionID;
         std::map<unsigned int, void*> holder;
     };
 

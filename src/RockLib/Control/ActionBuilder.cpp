@@ -7,83 +7,86 @@
 namespace RockLib {
 
     ActionBuilder::ActionBuilder(){
-        actionID = 0;
+        this->action = Action();
+        this->actionID = 0;
         this->holder.clear();
     }
 
     ActionBuilder& ActionBuilder::delay(double sec){
-        this->holder[actionID] = new std::function<void()>([sec](){
-            action.delay(sec);
+        this->holder[++this->actionID] = new std::function<void()>([&, this](){
+            this->action.delay(sec);
         });
-        actionID++;
 
         return *this;
     }
 
     ActionBuilder& ActionBuilder::turn(double angle, Flags flags, Action::MotionConstraints_t constraint){
-        this->holder[actionID] = new std::function<void()>([angle, flags, constraint](){
-            action.turn(angle, flags, constraint);
+        this->holder[++this->actionID] = new std::function<void()>([&, this](){
+            this->action.turn(angle, flags, constraint);
         });
-        actionID++;
 
         return *this;
     }
 
     ActionBuilder& ActionBuilder::turnTo(Point target, Flags flags, Action::MotionConstraints_t constraint){
-        this->holder[actionID] = new std::function<void()>([target, flags, constraint](){
-            action.turnTo(target, flags, constraint);
+        this->holder[++this->actionID] = new std::function<void()>([&, this](){
+            this->action.turnTo(target, flags, constraint);
         });
-        actionID++;
 
         return *this;
     }
 
     ActionBuilder& ActionBuilder::moveToArc(Point target, double radius, RockLib::Flags flags, Action::MotionConstraints_t constraint) {
-        this->holder[actionID] = new std::function<void()>([target, radius, flags, constraint](){
-            action.moveToArc(target, radius, flags, constraint);
+        this->holder[++this->actionID] = new std::function<void()>([&, this](){
+            this->action.moveToArc(target, radius, flags, constraint);
         });
-        actionID++;
 
         return *this;
     }
 
     ActionBuilder& ActionBuilder::move(double distance, Flags flags, Action::MotionConstraints_t constraint){
-        this->holder[actionID] = new std::function<void()>([distance, flags, constraint](){
-            action.move(distance, flags, constraint);
+        this->holder[++this->actionID] = new std::function<void()>([&, this](){
+            this->action.move(distance, flags, constraint);
         });
-        actionID++;
 
         return *this;
     }
 
     ActionBuilder& ActionBuilder::moveTo(Point target, Flags flags, Action::MotionConstraints_t constraint){
-        this->holder[actionID] = new std::function<void()>([target, flags, constraint](){
-            action.moveTo(target, flags, constraint);
+        this->holder[++this->actionID] = new std::function<void()>([&, this](){
+            this->action.moveTo(target, flags, constraint);
         });
-        actionID++;
 
         return *this;
     }
 
     ActionBuilder& ActionBuilder::splineTo(Point target, Point c1, Point c2, Flags flags, Action::MotionConstraints_t constraint){
-        this->holder[actionID] = new std::function<void()>([target, c1, c2, flags, constraint](){
-            action.splineTo(target, c1, c2, flags, constraint);
+        this->holder[++this->actionID] = new std::function<void()>([&, this](){
+            this->action.splineTo(target, c1, c2, flags, constraint);
         });
-        actionID++;
 
         return *this;
     }
 
     ActionBuilder& ActionBuilder::splineTo(Point target, Point c1, Flags flags, Action::MotionConstraints_t constraint){
-        this->holder[actionID] = new std::function<void()>([target, c1, flags, constraint](){
-            action.splineTo(target, c1, flags);
+        this->holder[++this->actionID] = new std::function<void()>([&, this](){
+            this->action.splineTo(target, c1, flags, constraint);
         });
-        actionID++;
 
         return *this;
     }
 
-    void ActionBuilder::build(){
+    ActionBuilder& ActionBuilder::splineTo(std::vector<Point> target, RockLib::Flags flags,
+                                           Action::MotionConstraints_t constraints) {
+        this->holder[++this->actionID] = new std::function<void()>([&, this](){
+            this->action.splineTo(target, flags, constraints);
+        });
 
+        return *this;
+    }
+
+
+    void ActionBuilder::build(){
+        this->action.build();
     }
 } // RockLib

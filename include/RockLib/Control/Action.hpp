@@ -12,8 +12,10 @@ namespace RockLib {
 
     class Action{
     public:
-        Action(const Action&) = delete;
-        Action& operator=(const Action&) = delete;
+        Action() noexcept = default;
+        Action(const Action&) noexcept = default;
+        Action(Action&& other) noexcept = delete;
+        Action& operator=(const Action&) noexcept = default;
 
         struct MotionConstraints_t{
             double velocity;
@@ -39,6 +41,10 @@ namespace RockLib {
         void splineTo(Point target, Point c1, Point c2, Flags flags = flag::NONE, MotionConstraints_t constraint = {0, 0, 0});
 
         void splineTo(Point target, Point c1, Flags flags = flag::NONE, MotionConstraints_t constraint = {0, 0, 0});
+
+        void splineTo(std::vector<Point> target, Flags flags = flag::NONE, MotionConstraints_t constraints = {0, 0, 0});
+
+        void build();
     };
 
 } // RockLib
