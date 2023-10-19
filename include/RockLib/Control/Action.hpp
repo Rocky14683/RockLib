@@ -43,8 +43,6 @@ namespace RockLib {
         void splineTo(Point target, Point c1, Flags flags = flag::NONE, MotionConstraints_t constraint = {0, 0, 0});
 
         void splineTo(std::vector<Point> target, Flags flags = flag::NONE, MotionConstraints_t constraints = {0, 0, 0});
-
-        void build();
     };
 
 } // RockLib

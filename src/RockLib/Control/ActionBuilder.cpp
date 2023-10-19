@@ -6,7 +6,7 @@
 
 namespace RockLib {
 
-    ActionBuilder::ActionBuilder(){
+    ActionBuilder::ActionBuilder(TrajectoryRunner* parent): parent(parent){
         this->action = Action();
         this->actionID = 0;
         this->holder.clear();
@@ -87,6 +87,6 @@ namespace RockLib {
 
 
     void ActionBuilder::build(){
-        this->action.build();
+        this->parent->build();//call trajectory runner to send actions to the trajectory processor
     }
 } // RockLib

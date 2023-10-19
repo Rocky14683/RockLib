@@ -5,17 +5,20 @@
 #pragma once
 #include <map>
 #include <functional>
+#include "RockLib/Control/TrajectoryRunner.hpp"
 #include "RockLib/Util/Flags.hpp"
 #include "RockLib/Util/Point.hpp"
 #include "RockLib/Control/Action.hpp"
 
+
 namespace RockLib {
+    class TrajectoryRunner;
 
     class ActionBuilder {
         friend class TrajectoryRunner;
     public:
 
-        ActionBuilder();
+        ActionBuilder(TrajectoryRunner* parent);
 
         ActionBuilder& delay(double sec);
 
@@ -38,10 +41,12 @@ namespace RockLib {
         void build();
 
     private:
+        TrajectoryRunner* parent;
+
         Action action;
 
         uint32_t actionID;
-        std::map<unsigned int, void*> holder;
+        std::map<uint32_t, void*> holder;
     };
 
 } // RockLib
