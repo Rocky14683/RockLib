@@ -21,6 +21,8 @@ namespace RockLib {
         Pose getPose()const;
         void setPose(Pose pose)const;
 
+        pros::Mutex* getMutex();
+
 //        struct Kinematics_t{};
 //        virtual Kinematics_t inverseKinematics(const double yDir, const double xDir,const double theta) = 0;//yDir : fwd and bwd direction, xDir : right and left direction
 
@@ -30,6 +32,7 @@ namespace RockLib {
 
     private:
         std::shared_ptr<Localizer> localizer;
+        pros::Mutex mutex;
     };
 
 } // RockLib
