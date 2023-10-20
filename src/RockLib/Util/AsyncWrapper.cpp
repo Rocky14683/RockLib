@@ -31,7 +31,7 @@ namespace RockLib {
     void AsyncWrapper::loopWrapper(void* args){
         if(args != nullptr){
             auto it = static_cast<AsyncWrapper*>(args);
-            it->run();
+            it->loop();
         }
     }
 

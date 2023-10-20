@@ -12,7 +12,9 @@ namespace RockLib {
         AsyncWrapper() = default;
         virtual ~AsyncWrapper();
 
-        virtual void run() = 0;
+        virtual void run(bool waitUntilSettled) = 0;
+
+        virtual void loop() = 0;
 
     public:
         virtual void start(const char* name);
