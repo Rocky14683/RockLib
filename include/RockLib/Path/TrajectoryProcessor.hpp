@@ -4,22 +4,24 @@
 
 #pragma once
 
-namespace RockLib {
+#include <map>
+#include "RockLib/Control/TrajectoryRunner.hpp"
 
+namespace RockLib {
+    class TrajectoryRunner;
     class TrajectoryProcessor {
     public:
         friend class TrajectoryRunner;
 
     private:
-        TrajectoryProcessor() = default;
+        TrajectoryProcessor(TrajectoryRunner* parent);
+
+        void actionInit(const std::map<uint32_t, void*>& actions);
 
         void process();
 
-        double maxVelocity;
-        double acceleration;
-        double deceleration;
-        double jerk;
-
+        std::map<uint32_t, void*> actions;
+        TrajectoryRunner* parent;
     };
 
 } // RockLib
