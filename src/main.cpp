@@ -79,11 +79,23 @@ void autonomous() {}
 using namespace RockLib;
 pros::MotorGroup left({1, 2, 3});
 pros::MotorGroup right({4, 5, 6});
+pros::Motor mt(4);
+
 pros::Gps gps(3);
 RockLib::GPSLocalizer localizer(gps);
 auto chassis = ChassisBuilder<DifferentialDrive>().withSetting({left, right, 1, 1}).withLocalizer(localizer).build();
-TrajectoryRunner runner(chassis, 1, 2 ,3);
-ActionHolder holder;
+TrajectoryRunner runner(chassis, 1, 2, 3);
+
 void opcontrol() {
+
+    runner.buildAction()-> turn(1, flag::NONE, {1, 2, 3})
+            .turnTo({2, 3})
+            .moveTo({3, 5})
+            .moveToArc({4, 6}, 3)
+            .splineTo({{1,2},{3,4},{5,6}}, flag::NONE, {1, 2, 3})
+            .build();
+
+    runner.run(false);
+
 
 }
