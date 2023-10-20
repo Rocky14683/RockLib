@@ -4,32 +4,33 @@
 #pragma once
 
 #include "AbstractChassis.hpp"
+#include <type_traits>
 
 namespace RockLib {
     template<class ChassisType>
+    concept IsChassis = std::is_base_of<AbstractChassis, ChassisType>::value;
+
+
+    template<class ChassisType>
+    requires IsChassis<ChassisType>
     class ChassisBuilder {
     public:
         ChassisBuilder();
 
         ~ChassisBuilder() = default;
 
-        ChassisBuilder &withSetting(const typename ChassisType::DriveSetting_t& driveSetting);
+        ChassisBuilder &withSetting(const typename ChassisType::DriveSetting_t &driveSetting);
 
-        ChassisBuilder &withLocalizer(const Localizer& localizer);
+        ChassisBuilder &withLocalizer(const Localizer &localizer);
 
         std::shared_ptr<ChassisType> build();
 
     private:
-        template<typename... Args>
-        const ChassisType& buildSFINAE(std::true_type, Args... args);
 
-        template<typename... Args>
-        const ChassisType& buildSFINAE(std::false_type, Args... args);
-
-        const typename ChassisType::DriveSetting_t driveSetting;
-        const Localizer& localizer;
-        bool hasSetting;
-        bool hasLocalizer;
+        const typename ChassisType::DriveSetting_t *driveSetting{nullptr};
+        const Localizer *localizer{nullptr};
+        bool hasSetting = false;
+        bool hasLocalizer = false;
     };
 } // RockLib
 

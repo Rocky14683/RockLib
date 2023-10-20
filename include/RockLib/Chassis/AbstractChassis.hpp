@@ -11,12 +11,15 @@
 namespace RockLib {
 
     class AbstractChassis {
-    public:
-        struct DriveSetting_t{};
+    protected:
 
-        explicit AbstractChassis() = default;
-        void operator=(const AbstractChassis& rhs) = delete;
-        explicit AbstractChassis(const Localizer& localizer);
+
+        AbstractChassis();
+        AbstractChassis(const Localizer& localizer);
+        void operator = (const AbstractChassis& rhs) = delete;
+
+    public:
+        typedef struct {}DriveSetting_t;
 
         Pose getPose()const;
         void setPose(Pose pose)const;
@@ -26,9 +29,6 @@ namespace RockLib {
 //        struct Kinematics_t{};
 //        virtual Kinematics_t inverseKinematics(const double yDir, const double xDir,const double theta) = 0;//yDir : fwd and bwd direction, xDir : right and left direction
 
-
-        template<class ChassisType>
-        friend class ChassisBuilder;
 
     private:
         std::shared_ptr<Localizer> localizer;
