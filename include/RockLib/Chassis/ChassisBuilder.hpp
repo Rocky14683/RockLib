@@ -33,3 +33,4 @@ namespace RockLib {
     };
 } // RockLib
 
+#include "../src/RockLib/Chassis/ChassisBuilder_impl.hpp"
