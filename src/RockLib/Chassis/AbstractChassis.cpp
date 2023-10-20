@@ -5,6 +5,9 @@
 #include "RockLib/Chassis/AbstractChassis.hpp"
 
 namespace RockLib {
+
+    AbstractChassis::AbstractChassis() : mutex(pros::Mutex()) {};
+
     AbstractChassis::AbstractChassis(const RockLib::Localizer &localizer) :
     localizer(std::make_unique<Localizer>(localizer)),
     mutex(pros::Mutex()){};

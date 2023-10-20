@@ -5,12 +5,15 @@
 #include "RockLib/Chassis/DifferentialDrive.hpp"
 
 namespace RockLib {
-    DifferentialDrive::DifferentialDrive(const DifferentialDrive::DriveSetting_t &setting) : setting(
+    DifferentialDrive::DifferentialDrive(typename DifferentialDrive::DriveSetting_t setting) : AbstractChassis(), setting(
             std::make_unique<DifferentialDrive::DriveSetting_t>(setting)) {};
 
-    DifferentialDrive::DifferentialDrive(const DifferentialDrive::DriveSetting_t &setting,
-                                         const RockLib::Localizer &localizer) : AbstractChassis(localizer), setting(
-            std::make_unique<DifferentialDrive::DriveSetting_t>(setting)) {};
+    DifferentialDrive::DifferentialDrive(typename DifferentialDrive::DriveSetting_t setting,
+                                         RockLib::Localizer localizer) : AbstractChassis(localizer), setting(
+            std::make_unique<DifferentialDrive::DriveSetting_t>(setting)) {}
+
+
+
 
 //    Kinematics_t
     /*DifferentialDrive::inverseKinematics(const double yDir, const double xDir, const double theta) const override{

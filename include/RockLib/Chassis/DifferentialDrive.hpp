@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <optional>
 #include "AbstractChassis.hpp"
 #include "pros/motor_group.hpp"
 
@@ -11,23 +12,26 @@ namespace RockLib {
 
     class DifferentialDrive : public AbstractChassis {
     public:
-        struct DriveSetting_t {
-            pros::MotorGroup& left;
-            pros::MotorGroup& right;
+        typedef struct DriveSetting_t {
+        public:
+            DriveSetting_t(const pros::MotorGroup& left, const pros::MotorGroup& right, double wheelDiameter, double trackWidth) :
+            left(left), right(right), wheelDiameter(wheelDiameter), trackWidth(trackWidth) {};
+        private:
+            const pros::MotorGroup& left;
+            const pros::MotorGroup& right;
             const double wheelDiameter;
             const double trackWidth;
-        };
-
+        } DriveSetting_t;
 
         DifferentialDrive() = delete;
 
-        DifferentialDrive(const DifferentialDrive::DriveSetting_t &setting);
+        DifferentialDrive(DifferentialDrive::DriveSetting_t setting);
 
-        DifferentialDrive(const DifferentialDrive::DriveSetting_t &setting, const Localizer &localizer);
+        DifferentialDrive(DifferentialDrive::DriveSetting_t setting, Localizer localizer);
 
         //virtual Kinematics_t inverseKinematics(double yDir, double xDir, double theta)const final;
     private:
-        std::unique_ptr<DriveSetting_t> setting;
+        std::unique_ptr<DifferentialDrive::DriveSetting_t> setting;
     };
 
 } // RockLib
