@@ -89,4 +89,10 @@ namespace RockLib {
     void ActionBuilder::build(){
         this->parent->build();//call trajectory runner to send actions to the trajectory processor
     }
+
+    void ActionBuilder::reset(){
+        this->actionID = 0;
+        this->holder.clear();
+    }
+
 } // RockLib

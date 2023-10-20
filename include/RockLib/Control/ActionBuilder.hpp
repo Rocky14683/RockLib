@@ -41,6 +41,8 @@ namespace RockLib {
         void build();
 
     private:
+        void reset();
+
         TrajectoryRunner* parent;
 
         Action action;
