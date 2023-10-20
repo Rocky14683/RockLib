@@ -15,6 +15,8 @@
 
 
 namespace RockLib {
+    class ActionBuilder;
+    class TrajectoryProcessor;
 
     class TrajectoryRunner : public AsyncWrapper {
         friend class ActionBuilder;
