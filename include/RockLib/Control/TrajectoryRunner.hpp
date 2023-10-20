@@ -8,10 +8,10 @@
 #include "RockLib/Chassis/AbstractChassis.hpp"
 #include "RockLib/Util/AsyncWrapper.hpp"
 #include "RockLib/Path/TrajectoryProcessor.hpp"
-#include "RockLib/Path/Trajectory.hpp"
-#include "RockLib/Util/Flags.hpp"
 #include "RockLib/Control/Action.hpp"
-#include "ActionBuilder.hpp"
+#include "RockLib/Control/ActionBuilder.hpp"
+#include "RockLib/Control/FeedForward.hpp"
+#include "RockLib/Control/PID.hpp"
 
 
 namespace RockLib {
@@ -40,6 +40,12 @@ namespace RockLib {
         std::unique_ptr<ActionBuilder> action;
 
         std::unique_ptr<TrajectoryProcessor> trajectoryProcessor;
+
+        std::unique_ptr<FeedForward> rightFeedForward;
+        std::unique_ptr<FeedForward> leftFeedForward;
+
+        std::unique_ptr<PID> rightPID;
+        std::unique_ptr<PID> leftPID;
 
         const double defaultVelocity;
         const double defaultAcceleration;

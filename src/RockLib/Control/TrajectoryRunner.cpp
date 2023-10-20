@@ -61,6 +61,7 @@ namespace RockLib{
             }
         }
 
+        this->pause();
         this->chassis->getMutex()->give();
         this->action->holder.clear();
     }
