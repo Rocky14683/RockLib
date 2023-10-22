@@ -8,11 +8,11 @@
 
 namespace RockLib {
 
-    class Bezier : public Trajectory {
+    class Spline {
     public:
-        Bezier() = delete;
+        Spline() = delete;
 
-        Bezier(Point c1, Point p1, Point p2, Point c2);
+        Spline(Point c1, Point p1, Point p2, Point c2);
 
         Point getPoint(double t);
 
