@@ -8,11 +8,10 @@
 
 namespace RockLib {
     template<class ChassisType>
-    concept IsChassis = std::is_base_of<AbstractChassis, ChassisType>::value;
+    concept Chassis = std::is_base_of<AbstractChassis, ChassisType>::value;
 
 
-    template<class ChassisType>
-    requires IsChassis<ChassisType>
+    template<Chassis ChassisType>
     class ChassisBuilder {
     public:
         ChassisBuilder();

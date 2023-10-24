@@ -7,15 +7,13 @@
 
 namespace RockLib {
 
-    template<class ChassisType>
-    requires IsChassis<ChassisType>
+    template<Chassis ChassisType>
     ChassisBuilder<ChassisType>::ChassisBuilder() {
         this->hasSetting = false;
         this->hasLocalizer = false;
     }
 
-    template<class ChassisType>
-    requires IsChassis<ChassisType>
+    template<Chassis ChassisType>
     ChassisBuilder<ChassisType> &
     ChassisBuilder<ChassisType>::withSetting(const typename ChassisType::DriveSetting_t &driveSetting) {
         this->driveSetting = &driveSetting;
@@ -23,8 +21,7 @@ namespace RockLib {
         return *this;
     }
 
-    template<class ChassisType>
-    requires IsChassis<ChassisType>
+    template<Chassis ChassisType>
     ChassisBuilder<ChassisType> &
     ChassisBuilder<ChassisType>::withLocalizer(const RockLib::Localizer &localizer) {
         this->localizer = &localizer;
@@ -32,8 +29,7 @@ namespace RockLib {
         return *this;
     }
 
-    template<class ChassisType>
-    requires IsChassis<ChassisType>
+    template<Chassis ChassisType>
     std::shared_ptr<ChassisType>
     ChassisBuilder<ChassisType>::build() {
         if(this->hasSetting && this->hasLocalizer && std::is_constructible<ChassisType, decltype(*this->driveSetting), decltype(*this->localizer)>::value){
