@@ -5,4 +5,7 @@
 #include "RockLib/Path/TrajectoryProcessor.hpp"
 
 namespace RockLib {
+    TrajectoryProcessor::TrajectoryProcessor(RockLib::TrajectoryRunner *parent) {
+        this->parent = parent;
+    }
 } // RockLib

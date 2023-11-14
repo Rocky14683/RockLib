@@ -38,7 +38,7 @@ namespace RockLib {
 
         ActionBuilder& splineTo(std::vector<Point> target, Flags flags = flag::NONE, Action::MotionConstraints_t constraints = {0, 0, 0});
 
-        void build();
+        void run(bool waitUntilSettled = false);
 
     private:
         void reset();

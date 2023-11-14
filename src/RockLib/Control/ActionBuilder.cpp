@@ -86,8 +86,9 @@ namespace RockLib {
     }
 
 
-    void ActionBuilder::build(){
+    void ActionBuilder::run(bool waitUntilSettled){
         this->parent->build();//call trajectory runner to send actions to the trajectory processor
+        this->parent->run(waitUntilSettled);
     }
 
     void ActionBuilder::reset(){
