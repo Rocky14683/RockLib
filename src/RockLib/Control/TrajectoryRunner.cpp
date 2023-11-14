@@ -30,7 +30,7 @@ namespace RockLib{
     };
 
 
-    std::unique_ptr<ActionBuilder> TrajectoryRunner::buildAction() {
+    std::unique_ptr<ActionBuilder> TrajectoryRunner::runAction() {
         if(this->actionHaveBeenBuilt){
             throw std::runtime_error("The action has already been built, do not build it again until you run it");
         }
@@ -63,7 +63,7 @@ namespace RockLib{
 
         this->pause();
         this->chassis->getMutex()->give();
-        this->action->holder.clear();
+        this->action->reset();
     }
 
 

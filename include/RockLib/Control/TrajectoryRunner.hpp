@@ -25,11 +25,11 @@ namespace RockLib {
         TrajectoryRunner(std::shared_ptr<AbstractChassis> chassis, double defaultVelocity, double defaultAcceleration,
                          double defaultJerk);
 
-        void run(bool waitUntilSettled = false)override;
-
-        std::unique_ptr<ActionBuilder> buildAction();
+        std::unique_ptr<ActionBuilder> runAction();
 
     private:
+
+        void run(bool waitUntilSettled = false)override;
 
         bool isSettled();
 
