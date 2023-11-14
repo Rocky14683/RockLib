@@ -7,7 +7,7 @@ namespace RockLib {
 
     class PID {
     public:
-        PID() = delete;
+        PID() = default;
         PID(const PID&) = default;
 
         PID(double kP, double kI, double kD);
