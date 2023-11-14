@@ -3,36 +3,42 @@
 //
 
 #pragma once
+
 #include "pros/imu.hpp"
 #include "pros/motors.hpp"
 #include "RockLib/Util/Pose.hpp"
 #include "RockLib/Localizer/Localizer.hpp"
+#include "RockLib/Control/PID.hpp"
 
 namespace RockLib {
 
     class AbstractChassis {
-    protected:
-
-
-        AbstractChassis();
-        AbstractChassis(const Localizer& localizer);
-        void operator = (const AbstractChassis& rhs) = delete;
-
     public:
-        typedef struct {}DriveSetting_t;
+        typedef struct {
+        } DriveSetting_t;
 
-        Pose getPose()const;
-        void setPose(Pose pose)const;
+        void setLinearPID(PID linearPID);
+        void setAngularPID(PID angularPID);
 
-        pros::Mutex* getMutex();
+        Pose getPose() const;
+        void setPose(Pose pose) const;
 
-//        struct Kinematics_t{};
-//        virtual Kinematics_t inverseKinematics(const double yDir, const double xDir,const double theta) = 0;//yDir : fwd and bwd direction, xDir : right and left direction
 
+        pros::Mutex *getMutex();
+
+
+    protected:
+        AbstractChassis();
+
+        AbstractChassis(const Localizer &localizer);
+
+        void operator=(const AbstractChassis &rhs) = delete;
 
     private:
         std::shared_ptr<Localizer> localizer;
         pros::Mutex mutex;
+        PID linearPID{};
+        PID angularPID{};
     };
 
 } // RockLib

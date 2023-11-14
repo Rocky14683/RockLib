@@ -9,8 +9,16 @@ namespace RockLib {
     AbstractChassis::AbstractChassis() : mutex(pros::Mutex()) {};
 
     AbstractChassis::AbstractChassis(const RockLib::Localizer &localizer) :
-    localizer(std::make_unique<Localizer>(localizer)),
-    mutex(pros::Mutex()){};
+            localizer(std::make_unique<Localizer>(localizer)),
+            mutex(pros::Mutex()) {};
+
+    void AbstractChassis::setLinearPID(RockLib::PID linearPID) {
+        this->linearPID = linearPID;
+    }
+
+    void AbstractChassis::setAngularPID(RockLib::PID angularPID) {
+        this->angularPID = angularPID;
+    }
 
     Pose AbstractChassis::getPose() const {
         return this->localizer->getPose();
@@ -20,7 +28,7 @@ namespace RockLib {
         this->localizer->setPose(pose);//do not modify  the address of the localizer
     }
 
-    pros::Mutex* AbstractChassis::getMutex() {
+    pros::Mutex *AbstractChassis::getMutex() {
         return &this->mutex;
     }
 

@@ -5,6 +5,7 @@
 
 #include "AbstractChassis.hpp"
 #include <type_traits>
+#include "RockLib/Control/PID.hpp"
 
 namespace RockLib {
     template<class ChassisType>
@@ -18,9 +19,13 @@ namespace RockLib {
 
         ~ChassisBuilder() = default;
 
-        ChassisBuilder &withSetting(const typename ChassisType::DriveSetting_t &driveSetting);
+        auto &withSetting(const typename ChassisType::DriveSetting_t &driveSetting);
 
-        ChassisBuilder &withLocalizer(const Localizer &localizer);
+        auto &withLocalizer(const Localizer &localizer);
+
+        auto &withLinearController(const PID linearController);
+
+        auto &withAngularController(const PID angularController);
 
         std::shared_ptr<ChassisType> build();
 
@@ -28,8 +33,8 @@ namespace RockLib {
 
         const typename ChassisType::DriveSetting_t *driveSetting{nullptr};
         const Localizer *localizer{nullptr};
-        bool hasSetting = false;
-        bool hasLocalizer = false;
+        std::optional<PID> linearController = std::nullopt;
+        std::optional<PID> angularController = std::nullopt;
     };
 } // RockLib
 
