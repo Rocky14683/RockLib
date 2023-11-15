@@ -5,14 +5,21 @@
 #include "RockLib/Chassis/DifferentialDrive.hpp"
 
 namespace RockLib {
-    DifferentialDrive::DifferentialDrive(typename DifferentialDrive::DriveSetting_t setting) : AbstractChassis(), setting(
-            std::make_unique<DifferentialDrive::DriveSetting_t>(setting)) {};
+    DifferentialDrive::DifferentialDrive(const typename DifferentialDrive::DriveSetting_t &setting,
+                                         const typename DifferentialDrive::Controllers_t &controllers)
+            : AbstractChassis(), setting(
+            std::make_unique<DifferentialDrive::DriveSetting_t>(setting)),
+              controllers(std::make_unique<DifferentialDrive::Controllers_t>(controllers)) {};
 
-    DifferentialDrive::DifferentialDrive(typename DifferentialDrive::DriveSetting_t setting,
-                                         RockLib::Localizer localizer) : AbstractChassis(localizer), setting(
-            std::make_unique<DifferentialDrive::DriveSetting_t>(setting)) {}
+    DifferentialDrive::DifferentialDrive(const typename DifferentialDrive::DriveSetting_t &setting,
+                                         const typename DifferentialDrive::Controllers_t &controllers,
+                                         const RockLib::Localizer &localizer) : AbstractChassis(localizer), setting(
+            std::make_unique<DifferentialDrive::DriveSetting_t>(setting)), controllers(
+            std::make_unique<DifferentialDrive::Controllers_t>(controllers)) {}
 
-
+    void DifferentialDrive::setControllers(const DifferentialDrive::Controllers_t &controllers) {
+        this->controllers = std::make_unique<DifferentialDrive::Controllers_t>(controllers);
+    }
 
 
 //    Kinematics_t

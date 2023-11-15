@@ -23,15 +23,15 @@ namespace RockLib {
 
         auto &withLocalizer(const Localizer &localizer);
 
-        auto &withLinearController(const PID linearController);
+        auto &withControllers(const typename ChassisType::Controllers_t &controllers);
 
-        auto &withAngularController(const PID angularController);
 
         std::shared_ptr<ChassisType> build();
 
     private:
 
         const typename ChassisType::DriveSetting_t *driveSetting{nullptr};
+        const typename ChassisType::Controllers_t *controllers{nullptr};
         const Localizer *localizer{nullptr};
         std::optional<PID> linearController = std::nullopt;
         std::optional<PID> angularController = std::nullopt;

@@ -29,42 +29,33 @@ namespace RockLib {
 
     template<Chassis ChassisType>
     auto &
-    ChassisBuilder<ChassisType>::withLinearController(const RockLib::PID linearController) {
-        this->linearController = linearController;
+    ChassisBuilder<ChassisType>::withControllers(const typename ChassisType::Controllers_t &controllers) {
+        this->controllers = &controllers;
         return *this;
     }
-
-    template<Chassis ChassisType>
-    auto &
-    ChassisBuilder<ChassisType>::withAngularController(const RockLib::PID angularController) {
-        this->angularController = angularController;
-        return *this;
-    }
-
 
     template<Chassis ChassisType>
     std::shared_ptr<ChassisType>
     ChassisBuilder<ChassisType>::build() {
-        std::shared_ptr<ChassisType> chassisPtr;
-        if (this->driveSetting != nullptr && this->localizer != nullptr &&
-            std::is_constructible<ChassisType, decltype(*this->driveSetting), decltype(*this->localizer)>::value) {
-            chassisPtr = std::move(std::make_shared<ChassisType>(*this->driveSetting, *this->localizer));
+
+        if (this->driveSetting != nullptr &&
+            this->controllers != nullptr &&
+            this->localizer != nullptr &&
+            std::is_constructible<ChassisType, decltype(*this->driveSetting), decltype(*this->controllers), decltype(*this->localizer)>::value) {
+
+            return std::move(
+                    std::make_shared<ChassisType>(*this->driveSetting, *this->controllers, *this->localizer));
+
         } else if (this->driveSetting != nullptr &&
-                   std::is_constructible<ChassisType, decltype(*this->driveSetting)>::value) {
-            chassisPtr = std::move(std::make_shared<ChassisType>(*this->driveSetting));
+                   this->controllers != nullptr &&
+                   std::is_constructible<ChassisType, decltype(*this->driveSetting), decltype(*this->controllers)>::value) {
+
+            return std::move(
+                    std::make_shared<ChassisType>(*this->driveSetting, *this->controllers));
+
         } else {
             throw std::runtime_error("ChassisBuilder: Not all parameters supplied, failed to build");
         }
-
-        if (this->linearController.has_value()) {
-            chassisPtr->setLinearPID(this->linearController.value());
-        }
-
-        if (this->angularController.has_value()) {
-            chassisPtr->setAngularPID(this->angularController.value());
-        }
-
-        return chassisPtr;
     }
 
 };// RockLib

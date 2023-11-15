@@ -9,6 +9,7 @@
 #include "RockLib/Util/Pose.hpp"
 #include "RockLib/Localizer/Localizer.hpp"
 #include "RockLib/Control/PID.hpp"
+#include "RockLib/Control/FeedForward.hpp"
 
 namespace RockLib {
 
@@ -17,15 +18,13 @@ namespace RockLib {
         typedef struct {
         } DriveSetting_t;
 
-        void setLinearPID(PID linearPID);
-        void setAngularPID(PID angularPID);
+        typedef struct {
+        } Controllers_t;
 
         Pose getPose() const;
         void setPose(Pose pose) const;
 
-
         pros::Mutex *getMutex();
-
 
     protected:
         AbstractChassis();
@@ -37,8 +36,6 @@ namespace RockLib {
     private:
         std::shared_ptr<Localizer> localizer;
         pros::Mutex mutex;
-        PID linearPID{};
-        PID angularPID{};
     };
 
 } // RockLib
