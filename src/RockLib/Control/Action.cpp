@@ -7,7 +7,4 @@
 
 namespace RockLib {
 
-
-
-
 } // RockLib
