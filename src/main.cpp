@@ -88,9 +88,8 @@ RockLib::GPSLocalizer localizer(gps);
 
 auto chassis = ChassisBuilder<DifferentialDrive>()
         .withSetting({left, right, 1, 1})
+        .withControllers({{1, 2, 3}, {1, 2, 3}, {}, {}})
         .withLocalizer(localizer)
-        .withLinearController({1, 2, 3})
-        .withAngularController({1, 3, 5})
         .build();
 
 TrajectoryRunner runner(chassis, 1, 2, 3);
