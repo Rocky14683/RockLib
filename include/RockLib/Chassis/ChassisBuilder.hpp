@@ -15,7 +15,7 @@ namespace RockLib {
     template<Chassis ChassisType>
     class ChassisBuilder {
     public:
-        ChassisBuilder();
+        ChassisBuilder() = default;
 
         ~ChassisBuilder() = default;
 
@@ -23,7 +23,9 @@ namespace RockLib {
 
         auto &withLocalizer(const Localizer &localizer);
 
-        auto &withControllers(const typename ChassisType::Controllers_t &controllers);
+        auto &withPIDControllers(const typename ChassisType::Controllers_t::PID_t &controllers);
+
+        auto &withFeedForwardControllers(const typename ChassisType::Controllers_t::FeedForward_t &controllers);
 
 
         std::shared_ptr<ChassisType> build();
@@ -31,10 +33,11 @@ namespace RockLib {
     private:
 
         const typename ChassisType::DriveSetting_t *driveSetting{nullptr};
-        const typename ChassisType::Controllers_t *controllers{nullptr};
+
+        typename ChassisType::Controllers_t *controllers{};
+        bool pidControllerInited = false;
+
         const Localizer *localizer{nullptr};
-        std::optional<PID> linearController = std::nullopt;
-        std::optional<PID> angularController = std::nullopt;
     };
 } // RockLib
 
