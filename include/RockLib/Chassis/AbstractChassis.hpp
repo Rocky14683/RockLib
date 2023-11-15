@@ -15,10 +15,15 @@ namespace RockLib {
 
     class AbstractChassis {
     public:
-        typedef struct {
+        typedef struct DriveSetting_t{
         } DriveSetting_t;
 
-        typedef struct {
+        typedef struct Controllers_t{
+            struct PID_t{};
+            struct FeedForward_t{};
+
+            PID_t pidControllers;
+            std::optional<FeedForward_t> feedForwardControllers{std::nullopt};
         } Controllers_t;
 
         Pose getPose() const;

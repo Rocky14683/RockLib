@@ -26,17 +26,17 @@ namespace RockLib {
 
         typedef struct Controllers_t {
         public:
-            Controllers_t(const PID &leftPID, const PID &rightPID) :
-                    leftPID(leftPID), rightPID(rightPID) {};
+            struct PID_t{
+                PID leftPID;
+                PID rightPID;
+            };
+            struct FeedForward_t{
+                FeedForward leftFeedFwd;
+                FeedForward rightFeedFwd;
+            };
 
-            Controllers_t(const PID &leftPID, const PID &rightPID, const FeedForward &leftFeedFwd,
-                          const FeedForward &rightFeedFwd) :
-                    leftPID(leftPID), rightPID(rightPID), leftFeedFwd(leftFeedFwd), rightFeedFwd(rightFeedFwd) {};
-        private:
-            PID leftPID;
-            PID rightPID;
-            std::optional<FeedForward> leftFeedFwd = std::nullopt;
-            std::optional<FeedForward> rightFeedFwd = std::nullopt;
+            PID_t pidControllers;
+            std::optional<FeedForward_t> feedForwardControllers{std::nullopt};
         } Controllers_t;
 
         DifferentialDrive() = delete;
