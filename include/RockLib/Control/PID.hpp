@@ -10,7 +10,8 @@ namespace RockLib {
         PID() = default;
         PID(const PID&) = default;
 
-        PID(double kP, double kI, double kD);
+        PID(double kP, double kI, double kD):
+        kP(kP), kI(kI), kD(kD){};
 
         void setP(double kP);
         void setI(double kI);
