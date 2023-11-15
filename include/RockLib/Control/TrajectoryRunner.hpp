@@ -43,11 +43,7 @@ namespace RockLib {
 
         std::unique_ptr<TrajectoryProcessor> trajectoryProcessor;
 
-        std::unique_ptr<FeedForward> rightFeedForward;
-        std::unique_ptr<FeedForward> leftFeedForward;
 
-        std::unique_ptr<PID> rightPID;
-        std::unique_ptr<PID> leftPID;
 
         const double defaultVelocity;
         const double defaultAcceleration;
