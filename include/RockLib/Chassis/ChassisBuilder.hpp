@@ -27,8 +27,7 @@ namespace RockLib {
 
         auto &withFeedForwardControllers(const typename ChassisType::Controllers_t::FeedForward_t &controllers);
 
-
-        std::shared_ptr<ChassisType> build();
+        [[nodiscard("\nThe builder returns a chassis.\nYou can use std::shared_ptr<ChassisType> or auto to get the chassis object")]] std::shared_ptr<ChassisType> build();
 
     private:
 
