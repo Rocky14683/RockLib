@@ -6,34 +6,34 @@
 #include "AbstractChassis.hpp"
 #include <type_traits>
 #include "RockLib/Control/PID.hpp"
+#include "DifferentialDrive.hpp"
 
 namespace RockLib {
-    template<class ChassisType>
-    concept Chassis = std::is_base_of<AbstractChassis, ChassisType>::value;
 
 
-    template<Chassis ChassisType>
+    template<IsChassis ChassisType>
     class ChassisBuilder {
     public:
         ChassisBuilder() = default;
 
         ~ChassisBuilder() = default;
 
-        auto &withSetting(const typename ChassisType::DriveSetting_t &driveSetting);
+        auto &withSetting(const DriveSetting_t<ChassisType> &driveSetting);
 
         auto &withLocalizer(const Localizer &localizer);
 
-        auto &withPIDControllers(const typename ChassisType::Controllers_t::PID_t &controllers);
+        auto &withPIDControllers(const Controllers_t<ChassisType>::PID_t &controllers);
 
-        auto &withFeedForwardControllers(const typename ChassisType::Controllers_t::FeedForward_t &controllers);
+        auto &withFeedForwardControllers(const Controllers_t<ChassisType>::FeedForward_t &controllers);
 
-        [[nodiscard("\nThe builder returns a chassis.\nYou can use std::shared_ptr<ChassisType> or auto to get the chassis object")]] std::shared_ptr<ChassisType> build();
+        [[nodiscard("\nThe builder returns a chassis.\nYou can use std::shared_ptr<ChassisType> or auto to get the chassis object")]]
+        std::shared_ptr<ChassisType> build();
 
     private:
 
-        const typename ChassisType::DriveSetting_t *driveSetting{nullptr};
+        const DriveSetting_t<ChassisType> *driveSetting{nullptr};
 
-        typename ChassisType::Controllers_t *controllers{};
+        Controllers_t<ChassisType> *controllers{};
         bool pidControllerInited = false;
 
         const Localizer *localizer{nullptr};
