@@ -5,27 +5,20 @@
 #include "RockLib/Chassis/DifferentialDrive.hpp"
 
 namespace RockLib {
-    DifferentialDrive::DifferentialDrive(const typename DifferentialDrive::DriveSetting_t &setting,
-                                         const typename DifferentialDrive::Controllers_t &controllers)
+    DifferentialDrive::DifferentialDrive(const DriveSetting_t<DifferentialDrive> &setting,
+                                         const Controllers_t<DifferentialDrive> &controllers)
             : AbstractChassis(), setting(
-            std::make_unique<DifferentialDrive::DriveSetting_t>(setting)),
-              controllers(std::make_unique<DifferentialDrive::Controllers_t>(controllers)) {};
+            std::make_unique<DriveSetting_t<DifferentialDrive>>(setting)),
+              controllers(std::make_unique<Controllers_t<DifferentialDrive>>(controllers)) {};
 
-    DifferentialDrive::DifferentialDrive(const typename DifferentialDrive::DriveSetting_t &setting,
-                                         const typename DifferentialDrive::Controllers_t &controllers,
+    DifferentialDrive::DifferentialDrive(const DriveSetting_t<DifferentialDrive> &setting,
+                                         const Controllers_t<DifferentialDrive> &controllers,
                                          const RockLib::Localizer &localizer) : AbstractChassis(localizer), setting(
-            std::make_unique<DifferentialDrive::DriveSetting_t>(setting)), controllers(
-            std::make_unique<DifferentialDrive::Controllers_t>(controllers)) {}
+            std::make_unique<DriveSetting_t<DifferentialDrive>>(setting)), controllers(
+            std::make_unique<Controllers_t<DifferentialDrive>>(controllers)) {}
 
-    void DifferentialDrive::setControllers(const DifferentialDrive::Controllers_t &controllers) {
-        this->controllers = std::make_unique<DifferentialDrive::Controllers_t>(controllers);
+    void DifferentialDrive::setControllers(const Controllers_t<DifferentialDrive> &controllers) {
+        this->controllers = std::make_unique<Controllers_t<DifferentialDrive>>(controllers);
     }
 
-
-//    Kinematics_t
-    /*DifferentialDrive::inverseKinematics(const double yDir, const double xDir, const double theta) const override{
-        double left = (yDir - (this->setting->trackWidth / 2) * theta) / (this->setting->wheelDiameter / 2);
-        double right = (yDir + (this->setting->trackWidth / 2) * theta) / (this->setting->wheelDiameter / 2);
-        return {left, right};
-    }*/
-} // RockLib
+}

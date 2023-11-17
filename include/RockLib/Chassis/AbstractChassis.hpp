@@ -15,18 +15,9 @@ namespace RockLib {
 
     class AbstractChassis {
     public:
-        typedef struct DriveSetting_t{
-        } DriveSetting_t;
-
-        typedef struct Controllers_t{
-            struct PID_t{};
-            struct FeedForward_t{};
-
-            PID_t pidControllers;
-            std::optional<FeedForward_t> feedForwardControllers{std::nullopt};
-        } Controllers_t;
 
         Pose getPose() const;
+
         void setPose(Pose pose) const;
 
         pros::Mutex *getMutex();
@@ -41,6 +32,31 @@ namespace RockLib {
     private:
         std::shared_ptr<Localizer> localizer;
         pros::Mutex mutex;
+    };
+
+
+    template<class ChassisType>
+    concept IsChassis = std::is_base_of<AbstractChassis, ChassisType>::value && !std::is_same<AbstractChassis, ChassisType>::value;
+
+
+    template<class ChassisType>
+    struct DriveSetting_t {
+        static_assert(IsChassis<ChassisType>);
+    };
+
+
+    template<class ChassisType>
+    struct Controllers_t {
+
+        static_assert(IsChassis<ChassisType>);
+
+        struct PID_t {
+        };
+        struct FeedForward_t {
+        };
+
+        PID_t pidControllers;
+        std::optional<FeedForward_t> feedForwardControllers{std::nullopt};
     };
 
 } // RockLib

@@ -12,46 +12,70 @@ namespace RockLib {
 
     class DifferentialDrive : public AbstractChassis {
     public:
-        typedef struct DriveSetting_t {
-        public:
-            DriveSetting_t(const pros::MotorGroup &left, const pros::MotorGroup &right, double wheelDiameter,
-                           double trackWidth) :
-                    left(left), right(right), wheelDiameter(wheelDiameter), trackWidth(trackWidth) {};
-        private:
-            const pros::MotorGroup &left;
-            const pros::MotorGroup &right;
-            const double wheelDiameter;
-            const double trackWidth;
-        } DriveSetting_t;
-
-        typedef struct Controllers_t {
-        public:
-            struct PID_t{
-                PID leftPID;
-                PID rightPID;
-            };
-            struct FeedForward_t{
-                FeedForward leftFeedFwd;
-                FeedForward rightFeedFwd;
-            };
-
-            PID_t pidControllers;
-            std::optional<FeedForward_t> feedForwardControllers{std::nullopt};
-        } Controllers_t;
 
         DifferentialDrive() = delete;
 
-        DifferentialDrive(const DifferentialDrive::DriveSetting_t &setting,
-                          const DifferentialDrive::Controllers_t &controllers);
+        DifferentialDrive(const DriveSetting_t<DifferentialDrive> &setting,
+                          const Controllers_t<DifferentialDrive> &controllers);
 
-        DifferentialDrive(const DifferentialDrive::DriveSetting_t &setting,
-                          const DifferentialDrive::Controllers_t &controllers, const Localizer &localizer);
+        DifferentialDrive(const DriveSetting_t<DifferentialDrive> &setting,
+                          const Controllers_t<DifferentialDrive> &controllers, const Localizer &localizer);
 
-        void setControllers(const Controllers_t &controllers);
+        void setControllers(const Controllers_t<DifferentialDrive> &controllers);
 
     private:
-        std::unique_ptr<DifferentialDrive::DriveSetting_t> setting;
-        std::unique_ptr<DifferentialDrive::Controllers_t> controllers;
+        std::unique_ptr<DriveSetting_t<DifferentialDrive>> setting;
+        std::unique_ptr<Controllers_t<DifferentialDrive>> controllers;
     };
+
+
+
+    template<>
+    struct DriveSetting_t<DifferentialDrive> {
+    public:
+
+        DriveSetting_t(std::initializer_list<int8_t> left,
+                       std::initializer_list<int8_t> right, const double wheelDiameter,
+                       const double trackWidth, const double gearRatio) :
+                leftMotors(std::make_shared<pros::MotorGroup>(left)),
+                rightMotors(std::make_shared<pros::MotorGroup>(right)),
+                wheelDiameter(wheelDiameter),
+                trackWidth(trackWidth),
+                gearRatio(gearRatio) {};
+
+        DriveSetting_t(const pros::MotorGroup &left,
+                       const pros::MotorGroup &right, const double wheelDiameter,
+                       const double trackWidth, const double gearRatio) : leftMotors(
+                std::make_shared<pros::MotorGroup>(left.get_port_all())), rightMotors(
+                std::make_shared<pros::MotorGroup>(right.get_port_all())),
+                wheelDiameter(wheelDiameter),
+                trackWidth(trackWidth),
+                gearRatio(gearRatio) {};
+
+    private:
+        std::shared_ptr<pros::MotorGroup> leftMotors;
+        std::shared_ptr<pros::MotorGroup> rightMotors;
+        const double wheelDiameter;
+        const double trackWidth;
+        const double gearRatio;
+    };
+
+
+    template<>
+    struct Controllers_t<DifferentialDrive> {
+    public:
+        struct PID_t {
+            PID leftPID;
+            PID rightPID;
+        };
+        struct FeedForward_t {
+            FeedForward leftFeedFwd;
+            FeedForward rightFeedFwd;
+        };
+
+        PID_t pidControllers{};
+        std::optional<FeedForward_t> feedForwardControllers{std::nullopt};
+    };
+
 
 } // RockLib
