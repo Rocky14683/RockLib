@@ -41,14 +41,14 @@ namespace RockLib {
 
     template<class ChassisType>
     struct DriveSetting_t {
-        static_assert(IsChassis<ChassisType>);
+        static_assert(IsChassis<ChassisType>, "The template parameter is a not a Chassis type");
     };
 
 
     template<class ChassisType>
     struct Controllers_t {
 
-        static_assert(IsChassis<ChassisType>);
+        static_assert(IsChassis<ChassisType>, "The template parameter is a not a Chassis type");
 
         struct PID_t {
         };
@@ -58,5 +58,4 @@ namespace RockLib {
         PID_t pidControllers;
         std::optional<FeedForward_t> feedForwardControllers{std::nullopt};
     };
-
 } // RockLib
