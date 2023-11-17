@@ -20,7 +20,7 @@ namespace RockLib {
 
         void setPose(Pose pose) const;
 
-        pros::Mutex *getMutex();
+        std::unique_ptr<pros::Mutex> getMutex();
 
     protected:
         AbstractChassis();
@@ -31,7 +31,7 @@ namespace RockLib {
 
     private:
         std::shared_ptr<Localizer> localizer;
-        pros::Mutex mutex;
+        std::unique_ptr<pros::Mutex> mutex;
     };
 
 

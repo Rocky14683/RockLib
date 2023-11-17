@@ -6,11 +6,11 @@
 
 namespace RockLib {
 
-    AbstractChassis::AbstractChassis() : mutex(pros::Mutex()) {};
+    AbstractChassis::AbstractChassis() : mutex(std::make_unique<pros::Mutex>()) {};
 
     AbstractChassis::AbstractChassis(const RockLib::Localizer &localizer) :
             localizer(std::make_unique<Localizer>(localizer)),
-            mutex(pros::Mutex()) {};
+            mutex(std::make_unique<pros::Mutex>()) {};
 
 
     Pose AbstractChassis::getPose() const {
@@ -21,8 +21,8 @@ namespace RockLib {
         this->localizer->setPose(pose);//do not modify  the address of the localizer
     }
 
-    pros::Mutex *AbstractChassis::getMutex() {
-        return &this->mutex;
+    std::unique_ptr<pros::Mutex> AbstractChassis::getMutex() {
+        return std::move(this->mutex);
     }
 
 
