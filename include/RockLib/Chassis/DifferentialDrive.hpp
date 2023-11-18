@@ -29,7 +29,6 @@ namespace RockLib {
     };
 
 
-
     template<>
     struct DriveSetting_t<DifferentialDrive> {
     public:
@@ -43,11 +42,11 @@ namespace RockLib {
                 trackWidth(trackWidth),
                 gearRatio(gearRatio) {};
 
-        DriveSetting_t(const pros::MotorGroup &left,
-                       const pros::MotorGroup &right, const double wheelDiameter,
-                       const double trackWidth, const double gearRatio) : leftMotors(
-                std::make_shared<pros::MotorGroup>(left.get_port_all())), rightMotors(
-                std::make_shared<pros::MotorGroup>(right.get_port_all())),
+        DriveSetting_t(const pros::MotorGroup& left,
+                       const pros::MotorGroup& right, const double wheelDiameter,
+                       const double trackWidth, const double gearRatio) :
+                leftMotors(std::make_shared<pros::MotorGroup>(left.get_port_all(), left.get_gearing(), left.get_encoder_units())),
+                rightMotors(std::make_shared<pros::MotorGroup>(right.get_port_all(), right.get_gearing(), right.get_encoder_units())),
                 wheelDiameter(wheelDiameter),
                 trackWidth(trackWidth),
                 gearRatio(gearRatio) {};
