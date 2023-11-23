@@ -3,21 +3,24 @@
 //
 #pragma once
 
+#include <type_traits>
 #include "pros/motor_group.hpp"
 #include "pros/adi.hpp"
 #include "pros/rotation.hpp"
 #include "pros/gps.hpp"
 #include "RockLib/Util/Pose.hpp"
+#include "RockLib/Chassis/AbstractChassis.hpp"
 
 namespace RockLib {
     class Localizer{
     public:
-        Localizer() = delete;
         Pose getPose();
         void setPose(Pose pose);
         virtual void calibrate();
         virtual void update();
     protected:
+        Localizer() = delete;
+        Localizer(double trackWidth, double wheelDiameter, double gearRatio);
         Pose robotPosition = {0, 0, 0};
         const double trackWidth;
         const double wheelDiameter;
@@ -48,16 +51,15 @@ namespace RockLib {
         std::unique_ptr<pros::adi::Encoder> right;
     };
 
-
+    template<IsChassis ChassisType>
     class IMELocalizer : public Localizer{
     public:
         IMELocalizer() = delete;
-        explicit IMELocalizer(const pros::MotorGroup& left, const pros::MotorGroup& right, const double trackWidth, const double wheelDiameter, const double gearRatio = 1);
+        explicit IMELocalizer(const DriveSetting_t<ChassisType>& driveSetting);
         void calibrate();
         void update();
     private:
-        std::unique_ptr<pros::MotorGroup> left;
-        std::unique_ptr<pros::MotorGroup> right;
+        std::unique_ptr<DriveSetting_t<ChassisType>> driveSetting;
     };
 
     class GPSLocalizer : public Localizer{
