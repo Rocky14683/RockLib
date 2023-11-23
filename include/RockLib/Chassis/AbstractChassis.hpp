@@ -7,11 +7,12 @@
 #include "pros/imu.hpp"
 #include "pros/motors.hpp"
 #include "RockLib/Util/Pose.hpp"
-#include "RockLib/Localizer/Localizer.hpp"
 #include "RockLib/Control/PID.hpp"
 #include "RockLib/Control/FeedForward.hpp"
 
 namespace RockLib {
+
+    class Localizer;
 
     class AbstractChassis {
     public:
