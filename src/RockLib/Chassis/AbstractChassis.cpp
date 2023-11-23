@@ -21,8 +21,8 @@ namespace RockLib {
         this->localizer->setPose(pose);//do not modify  the address of the localizer
     }
 
-    std::unique_ptr<pros::Mutex> AbstractChassis::getMutex() {
-        return std::move(this->mutex);
+    pros::Mutex* AbstractChassis::getMutex() {
+        return this->mutex.get();
     }
 
 
