@@ -9,31 +9,33 @@
 namespace RockLib {
 
     template<IsChassis ChassisType>
-    auto &
-    ChassisBuilder<ChassisType>::withSetting(const DriveSetting_t<ChassisType> &driveSetting) {
+    auto
+    ChassisBuilder<ChassisType>::withSetting(
+            const DriveSetting_t<ChassisType> &driveSetting) -> ChassisBuilder<ChassisType> & {
         this->driveSetting = &driveSetting;
         return *this;
     }
 
     template<IsChassis ChassisType>
-    auto &
-    ChassisBuilder<ChassisType>::withLocalizer(const RockLib::Localizer &localizer) {
+    auto
+    ChassisBuilder<ChassisType>::withLocalizer(const RockLib::Localizer &localizer) -> ChassisBuilder<ChassisType> & {
         this->localizer = &localizer;
         return *this;
     }
 
     template<IsChassis ChassisType>
-    auto &
-    ChassisBuilder<ChassisType>::withPIDControllers(const Controllers_t<ChassisType>::PID_t &pidControllers) {
+    auto
+    ChassisBuilder<ChassisType>::withPIDControllers(
+            const Controllers_t<ChassisType>::PID_t &pidControllers) -> ChassisBuilder<ChassisType> & {
         this->controllers->pidControllers = pidControllers;
         this->pidControllerInited = true;
         return *this;
     }
 
     template<IsChassis ChassisType>
-    auto &
+    auto
     ChassisBuilder<ChassisType>::withFeedForwardControllers(
-            const Controllers_t<ChassisType>::FeedForward_t &feedFwdControllers) {
+            const Controllers_t<ChassisType>::FeedForward_t &feedFwdControllers) -> ChassisBuilder<ChassisType> & {
         this->controllers->feedForwardControllers = feedFwdControllers;
         return *this;
     }

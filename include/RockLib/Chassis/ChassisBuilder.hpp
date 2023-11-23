@@ -18,13 +18,14 @@ namespace RockLib {
 
         ~ChassisBuilder() = default;
 
-        auto &withSetting(const DriveSetting_t<ChassisType> &driveSetting);
+        auto withSetting(const DriveSetting_t<ChassisType> &driveSetting) -> ChassisBuilder<ChassisType> &;
 
-        auto &withLocalizer(const Localizer &localizer);
+        auto withLocalizer(const Localizer &localizer) -> ChassisBuilder<ChassisType> &;
 
-        auto &withPIDControllers(const Controllers_t<ChassisType>::PID_t &controllers);
+        auto withPIDControllers(const Controllers_t<ChassisType>::PID_t &controllers) -> ChassisBuilder<ChassisType> &;
 
-        auto &withFeedForwardControllers(const Controllers_t<ChassisType>::FeedForward_t &controllers);
+        auto withFeedForwardControllers(
+                const Controllers_t<ChassisType>::FeedForward_t &controllers) -> ChassisBuilder<ChassisType> &;
 
         [[nodiscard("\nThe builder returns a chassis.\nYou can use std::shared_ptr<ChassisType> or auto to get the chassis object")]]
         std::shared_ptr<ChassisType> build();
