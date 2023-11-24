@@ -7,6 +7,7 @@
 #include <optional>
 #include "AbstractChassis.hpp"
 #include "pros/motor_group.hpp"
+#include "RockLib/Localizer/Localizer.hpp"
 
 namespace RockLib {
 
@@ -24,6 +25,7 @@ namespace RockLib {
         void setControllers(const Controllers_t<DifferentialDrive> &controllers);
 
     private:
+        Localizer defaultLocalizer;
         std::unique_ptr<DriveSetting_t<DifferentialDrive>> setting;
         std::unique_ptr<Controllers_t<DifferentialDrive>> controllers;
     };
