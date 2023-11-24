@@ -22,9 +22,7 @@ namespace RockLib {
         Localizer() = delete;
         Localizer(double trackWidth, double wheelDiameter, double gearRatio);
         Pose robotPosition = {0, 0, 0};
-        const double trackWidth;
-        const double wheelDiameter;
-        const double gearRatio;
+
     };
 
     class RotationLocalizer : public Localizer{
@@ -37,6 +35,9 @@ namespace RockLib {
         std::unique_ptr<pros::Rotation> left;
         std::unique_ptr<pros::Rotation> center;
         std::unique_ptr<pros::Rotation> right;
+        const double trackWidth;
+        const double wheelDiameter;
+        const double gearRatio;
     };
 
     class EncoderLocalizer : public Localizer{
@@ -49,17 +50,21 @@ namespace RockLib {
         std::unique_ptr<pros::adi::Encoder> left;
         std::unique_ptr<pros::adi::Encoder> center;
         std::unique_ptr<pros::adi::Encoder> right;
+        const double trackWidth;
+        const double wheelDiameter;
+        const double gearRatio;
     };
 
-    template<IsChassis ChassisType>
+    template<class ChassisType>
     class IMELocalizer : public Localizer{
     public:
-        IMELocalizer() = delete;
-        explicit IMELocalizer(const DriveSetting_t<ChassisType>& driveSetting);
+        static_assert(IsChassis<ChassisType>, "The template parameter is a not a Chassis type");
+        IMELocalizer() = default;
+        IMELocalizer(const DriveSetting_t<ChassisType>& driveSetting);
         void calibrate();
         void update();
     private:
-        std::unique_ptr<DriveSetting_t<ChassisType>> driveSetting;
+        DriveSetting_t<ChassisType>* driveSetting;
     };
 
     class GPSLocalizer : public Localizer{
