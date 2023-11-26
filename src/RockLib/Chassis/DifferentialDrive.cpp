@@ -10,7 +10,7 @@ namespace RockLib {
             : AbstractChassis(),
               setting(std::make_unique<DriveSetting_t<DifferentialDrive>>(setting)),
               controllers(std::make_unique<Controllers_t<DifferentialDrive>>(controllers)),
-              defaultLocalizer(IMELocalizer<DifferentialDrive>(setting)) {};
+              defaultLocalizer(std::make_unique<IMELocalizer<DifferentialDrive>>(setting)) {};
 
     DifferentialDrive::DifferentialDrive(const DriveSetting_t<DifferentialDrive> &setting,
                                          const Controllers_t<DifferentialDrive> &controllers,
@@ -18,7 +18,7 @@ namespace RockLib {
             : AbstractChassis(localizer),
               setting(std::make_unique<DriveSetting_t<DifferentialDrive>>(setting)),
               controllers(std::make_unique<Controllers_t<DifferentialDrive>>(controllers)),
-              defaultLocalizer(IMELocalizer<DifferentialDrive>(setting)) {}
+              defaultLocalizer(std::make_unique<IMELocalizer<DifferentialDrive>>(setting)) {}
 
     void DifferentialDrive::setControllers(const Controllers_t<DifferentialDrive> &controllers) {
         this->controllers = std::make_unique<Controllers_t<DifferentialDrive>>(controllers);

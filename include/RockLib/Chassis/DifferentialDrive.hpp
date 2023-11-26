@@ -20,12 +20,13 @@ namespace RockLib {
                           const Controllers_t<DifferentialDrive> &controllers);
 
         DifferentialDrive(const DriveSetting_t<DifferentialDrive> &setting,
-                          const Controllers_t<DifferentialDrive> &controllers, const Localizer &localizer);
+                          const Controllers_t<DifferentialDrive> &controllers,
+                          const Localizer &localizer);
 
         void setControllers(const Controllers_t<DifferentialDrive> &controllers);
 
     private:
-        Localizer defaultLocalizer;
+        std::unique_ptr<IMELocalizer<DifferentialDrive>> defaultLocalizer;
         std::unique_ptr<DriveSetting_t<DifferentialDrive>> setting;
         std::unique_ptr<Controllers_t<DifferentialDrive>> controllers;
     };
@@ -36,10 +37,10 @@ namespace RockLib {
     public:
 
         DriveSetting_t(std::initializer_list<int8_t> left,
-                       std::initializer_list<int8_t> right, const double wheelDiameter,
+                       std::initializer_list<int8_t> right, const pros::MotorGears gearSet, const double wheelDiameter,
                        const double trackWidth, const double gearRatio) :
-                leftMotors(std::make_shared<pros::MotorGroup>(left)),
-                rightMotors(std::make_shared<pros::MotorGroup>(right)),
+                leftMotors(std::make_shared<pros::MotorGroup>(left, gearSet)),
+                rightMotors(std::make_shared<pros::MotorGroup>(right, gearSet)),
                 wheelDiameter(wheelDiameter),
                 trackWidth(trackWidth),
                 gearRatio(gearRatio) {};
@@ -47,8 +48,8 @@ namespace RockLib {
         DriveSetting_t(const pros::MotorGroup& left,
                        const pros::MotorGroup& right, const double wheelDiameter,
                        const double trackWidth, const double gearRatio) :
-                leftMotors(std::make_shared<pros::MotorGroup>(left.get_port_all(), left.get_gearing(), left.get_encoder_units())),
-                rightMotors(std::make_shared<pros::MotorGroup>(right.get_port_all(), right.get_gearing(), right.get_encoder_units())),
+                leftMotors(std::make_shared<pros::MotorGroup>(left.get_port_all(), left.get_gearing())),
+                rightMotors(std::make_shared<pros::MotorGroup>(right.get_port_all(), right.get_gearing())),
                 wheelDiameter(wheelDiameter),
                 trackWidth(trackWidth),
                 gearRatio(gearRatio) {};
