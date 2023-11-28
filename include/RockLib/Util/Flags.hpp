@@ -10,11 +10,11 @@ namespace RockLib {
 
     using Flags = uint8_t;
 
-    namespace flag{
-        const Flags NONE = 0x00; // 00000000
-        const Flags WIGGLE = 0x01; // 00000001
-        const Flags RELATIVE = 0x02; // 00000010
-        const Flags REVERSE = 0x03; // 00000100
+    namespace Flag{
+        constexpr Flags NONE = 0x00; // 00000000
+        constexpr Flags WIGGLE = 0x01; // 00000001
+        constexpr Flags RELATIVE = 0x02; // 00000010
+        constexpr Flags REVERSE = 0x03; // 00000100
     }
 
 } // RockLib
