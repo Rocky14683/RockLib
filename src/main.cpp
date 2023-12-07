@@ -87,23 +87,27 @@ pros::Gps gps(3);
 RockLib::GPSLocalizer localizer(gps);
 
 auto chassis = ChassisBuilder<DifferentialDrive>()
-        .withSetting({left, right, 1, 1})
+        .withSetting({left, right, 1, 1, 1})
         .withPIDControllers({{1, 2, 3}, {1, 2, 3}})
-        .withFeedForwardControllers({{}, {}})
+//        .withFeedForwardControllers({{}, {}})
         .withLocalizer(localizer)
         .build();
 
 TrajectoryRunner runner(chassis, 1, 2, 3);
 
 void opcontrol() {
-
-    runner.runAction()->turn(1, flag::NONE, {1, 2, 3})
+    runner.runAction()->turn(1, Flag::NONE, ActionBuilder::MotionConstraints_t{1, 2, 3})
             .turnTo({2, 3})
             .moveTo({3, 5})
             .moveToArc({4, 6}, 3)
             .splineTo({{1, 2}, {3, 4},{5, 6}},
-                      flag::NONE, {1, 2, 3})
-            .run();
+                      Flag::REVERSE | Flag::WIGGLE, {1, 2, 3})
+            .run(false);
 
+//    runner.notify(runner.finishedAction(/*uint32_t ActionID*/3))->task{
+        /*a bunch of tasks:
+        intake.run();
+        wing.set(true);*/
+//    }
 
 }
