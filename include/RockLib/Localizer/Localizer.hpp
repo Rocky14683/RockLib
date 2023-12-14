@@ -14,8 +14,12 @@
 namespace RockLib {
     class Localizer{
     public:
-        Pose getPose();
-        void setPose(Pose pose);
+        Pose getPose() const{
+            return this->robotPosition;
+        }
+        void setPose(Pose pose) {
+            this->robotPosition = pose;
+        }
         virtual void calibrate();
         virtual void update();
     protected:
