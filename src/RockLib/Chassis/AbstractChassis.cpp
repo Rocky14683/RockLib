@@ -3,6 +3,7 @@
 //
 
 #include "RockLib/Chassis/AbstractChassis.hpp"
+#include "RockLib/Localizer/Localizer.hpp"
 
 namespace RockLib {
 
